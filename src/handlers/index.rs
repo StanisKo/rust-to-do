@@ -1,4 +1,4 @@
 #[get("/")]
-pub fn index_route() -> &'static str {
+pub fn index_handler() -> &'static str {
     "Hello, world!"
 }

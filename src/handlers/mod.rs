@@ -1,3 +1,3 @@
 mod index;
 
-pub use index::index_route;
+pub use index::index_handler;

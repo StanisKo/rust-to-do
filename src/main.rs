@@ -2,9 +2,9 @@
 
 mod handlers;
 
-use handlers::index_route;
+use handlers::index_handler;
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index_route])
+    rocket::build().mount("/", routes![index_handler])
 }
