@@ -21,6 +21,7 @@ services:
       ports:
         - "${API_PORT}:${API_PORT}"
       volumes:
-        - ./src:/to-do
+        - ./:/to-do
       depends_on:
         - database
+      command: "cargo watch --why --ignore data --ignore cargo --ignore images --ignore target-docker -- cargo run --release --color always"
