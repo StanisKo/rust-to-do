@@ -24,4 +24,4 @@ services:
         - ./:/to-do
       depends_on:
         - database
-      command: "cargo watch --why --ignore data --ignore cargo --ignore images --ignore target -- cargo run --release --color always"
+      command:  bash -c "/wait && diesel setup && diesel migration run && cargo watch --why --ignore data --ignore cargo --ignore images --ignore target -- cargo run --release --color always"
