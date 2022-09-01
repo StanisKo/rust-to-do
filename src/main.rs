@@ -1,6 +1,7 @@
 #[macro_use] extern crate rocket;
 
 mod handlers;
+mod db_connection;
 
 use handlers::index_handler;
 
