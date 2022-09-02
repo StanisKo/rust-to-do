@@ -1,4 +1,4 @@
-CREATE TABLE "todo-items" (
+CREATE TABLE todo_items (
     "id" SERIAL PRIMARY KEY,
     "title" VARCHAR(256) NOT NULL,
     "content" TEXT,

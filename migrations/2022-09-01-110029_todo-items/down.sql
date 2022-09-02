@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS todo-items;
+DROP TABLE IF EXISTS todo_items;
