@@ -1,10 +1,14 @@
 #[macro_use] extern crate rocket;
+#[macro_use] extern crate diesel;
 
-mod handlers;
+mod models;
+mod schema;
+mod controllers;
+mod db_connection;
 
-use handlers::index_handler;
+use controllers::index_controller;
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index_handler])
+    rocket::build().mount("/", routes![index_controller])
 }

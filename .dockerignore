@@ -1,6 +1,5 @@
 cargo
 target
-target-docker
 docker
 
 Dockerfile
