@@ -24,3 +24,9 @@ pub fn create_todo_item(new_todo_item: NewTodoItem) -> Result<TodoItem, Error> {
 
     transaction_result
 }
+
+pub fn get_todo_item(item_id: i32) -> Result<TodoItem, Error> {
+    let connection = db_connection::create_connection();
+
+    todo_items::table.find(item_id).get_result::<TodoItem>(&connection)
+}

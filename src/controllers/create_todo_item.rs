@@ -13,3 +13,10 @@ pub fn create_todo_item_controller(new_todo_item: Json<NewTodoItem>) -> Custom<J
 
     Custom(Status::Created, Json(created_todo_item))
 }
+
+#[get("/<id>")]
+pub fn get_todo_item_controller(id: i32) -> Custom<Json<TodoItem>> {
+    let todo_item = todo_item_service::get_todo_item(id).unwrap();
+
+    Custom(Status::Ok, Json(todo_item))
+}
