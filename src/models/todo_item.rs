@@ -1,5 +1,6 @@
 use crate::schema::todo_items;
 
+use chrono::NaiveDateTime;
 use diesel::{Queryable, Identifiable, Insertable};
 use rocket::serde::{Deserialize, Serialize};
 
@@ -12,7 +13,7 @@ pub struct TodoItem {
     // Has default constraint on database side (FALSE)
     pub done: Option<bool>,
     // Has default constraint on database side (CURRENT_TIMESTAMP)
-    pub created: Option<std::time::SystemTime>,
+    pub created: Option<NaiveDateTime>
 }
 
 #[derive(Insertable, Deserialize)]
