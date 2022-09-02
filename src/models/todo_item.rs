@@ -17,6 +17,5 @@ pub struct TodoItem {
 #[table_name = "todo_items"]
 pub struct NewTodoItem {
     pub title: String,
-    pub content: Option<String>,
-    pub created: std::time::SystemTime,
+    pub content: Option<String>
 }
