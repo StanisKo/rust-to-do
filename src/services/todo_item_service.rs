@@ -7,7 +7,7 @@ use diesel::prelude::*;
 use diesel::result::Error;
 
 
-pub fn create_todo_item_service(new_todo_item: NewTodoItem) -> Result<TodoItem, Error> {
+pub fn create_todo_item(new_todo_item: NewTodoItem) -> Result<TodoItem, Error> {
     /*
     We explicitly don't handle connection errors since, if any, we want runtime error
     */

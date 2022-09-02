@@ -1,3 +1,1 @@
-mod create_todo_item;
-
-pub use create_todo_item::create_todo_item_service;
+pub mod todo_item_service;
