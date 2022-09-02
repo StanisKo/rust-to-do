@@ -9,8 +9,10 @@ pub struct TodoItem {
     pub id: i32,
     pub title: String,
     pub content: Option<String>,
-    pub created: std::time::SystemTime,
-    pub done: bool,
+    // Has default constraint on database side (FALSE)
+    pub done: Option<bool>,
+    // Has default constraint on database side (CURRENT_TIMESTAMP)
+    pub created: Option<std::time::SystemTime>,
 }
 
 #[derive(Insertable, Deserialize)]
