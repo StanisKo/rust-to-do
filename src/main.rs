@@ -9,9 +9,9 @@ mod controllers;
 
 mod db_connection;
 
-use controllers::index_controller;
+use controllers::create_todo_item_controller;
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index_controller])
+    rocket::build().mount("/todo-item", routes![create_todo_item_controller])
 }
