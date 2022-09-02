@@ -9,6 +9,6 @@ pub struct TodoItem {
     pub id: i32,
     pub title: String,
     pub content: Option<String>,
+    pub created: std::time::SystemTime,
     pub done: bool,
-    pub created: std::time::SystemTime
 }
