@@ -15,8 +15,10 @@ pub fn create_todo_item_controller(new_todo_item: Json<NewTodoItem>) -> Custom<J
 }
 
 #[get("/<item_id>")]
-pub fn get_todo_item_controller(item_id: i32) -> Custom<Json<TodoItem>> {
-    let todo_item = todo_item_service::get_todo_item(item_id).unwrap();
+pub fn get_todo_item_controller(item_id: i32) -> Option<Json<TodoItem>> {
+    match todo_item_service::get_todo_item(item_id) {
+        Some(todo_item) => Some(Json(todo_item)),
 
-    Custom(Status::Ok, Json(todo_item))
+        None => None
+    }
 }
