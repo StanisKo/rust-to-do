@@ -3,6 +3,7 @@
 
 mod schema;
 mod models;
+mod dtos;
 
 mod services;
 mod controllers;
