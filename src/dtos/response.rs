@@ -9,7 +9,11 @@ pub struct Response<T> {
 
 impl<T> Response<T> {
 
-    pub fn new() -> Self {
-        Response { sucess: false, message: None, data: None }
+    pub fn success(body: T) -> Self {
+        Response { sucess: true, message: None, data: Some(body) }
+    }
+
+    pub fn failure(message: impl Into<String>) -> Self {
+        Response { sucess: false, message: Some(message.into()), data: None }
     }
 }
