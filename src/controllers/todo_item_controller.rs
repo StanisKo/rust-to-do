@@ -6,13 +6,36 @@ use crate::dtos::Response;
 use crate::models::{TodoItem, NewTodoItem};
 use crate::services::todo_item_service;
 
-#[post("/create", format = "application/json", data="<new_todo_item>")]
-pub fn create_todo_item_controller(new_todo_item: Json<NewTodoItem>) -> Custom<Json<TodoItem>> {
+#[post("/create", format = "json", data="<new_todo_item>")]
+pub fn create_todo_item_controller(new_todo_item: Json<NewTodoItem>) -> Custom<Json<Response<TodoItem>>> {
     let todo_item_to_insert = new_todo_item.into_inner();
 
-    let created_todo_item = todo_item_service::create_todo_item(todo_item_to_insert).unwrap();
+    let todo_item_already_exists = todo_item_service::check_if_todo_item_exists(
+        &todo_item_to_insert.title
+    );
 
-    Custom(Status::Created, Json(created_todo_item))
+    if todo_item_already_exists {
+        return Custom(
+            Status::BadRequest,
+            Json(Response::failure("Todo item already exists"))
+        );
+    }
+
+    match todo_item_service::create_todo_item(todo_item_to_insert) {
+        Ok(todo_item) => {
+            Custom(
+                Status::Created,
+                Json(Response::success(todo_item))
+            )
+        },
+
+        Err(_) => {
+            Custom(
+                Status::BadRequest,
+                Json(Response::failure("Provided input is invalid"))
+            )
+        }
+    }
 }
 
 #[get("/<item_id>")]

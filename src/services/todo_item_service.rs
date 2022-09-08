@@ -28,3 +28,22 @@ pub fn get_todo_item(item_id: i32) -> Option<TodoItem> {
         Err(_) => None
     }
 }
+
+pub fn check_if_todo_item_exists(title: &String) -> bool {
+    let connection = db_connection::create_connection();
+
+    match todo_items::table.filter(todo_items::title.eq(title)).count().get_result(&connection) {
+        Ok(count) => {
+
+            match count {
+                1 => true,
+                0 => false,
+                _ => true
+            }
+        },
+
+        Err(_) => {
+            false
+        }
+    }
+}
