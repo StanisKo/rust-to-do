@@ -8,7 +8,7 @@ use crate::services::todo_item_service;
 
 
 #[post("/create", format = "json", data="<new_todo_item>")]
-pub fn create_todo_item_controller(new_todo_item: Json<NewTodoItem>) -> Custom<Json<Response<TodoItem>>> {
+pub fn create_todo_item(new_todo_item: Json<NewTodoItem>) -> Custom<Json<Response<TodoItem>>> {
     let todo_item_to_insert = new_todo_item.into_inner();
 
     if todo_item_to_insert.title.is_empty() {
@@ -47,7 +47,7 @@ pub fn create_todo_item_controller(new_todo_item: Json<NewTodoItem>) -> Custom<J
 }
 
 #[get("/<item_id>")]
-pub fn get_todo_item_controller(item_id: i32) -> Custom<Json<Response<TodoItem>>> {
+pub fn get_todo_item(item_id: i32) -> Custom<Json<Response<TodoItem>>> {
 
     match todo_item_service::get_todo_item(item_id) {
         Some(todo_item) => {
