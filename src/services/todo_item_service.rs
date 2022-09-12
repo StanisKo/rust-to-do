@@ -47,3 +47,18 @@ pub fn check_if_todo_item_exists(title: &String) -> bool {
         }
     }
 }
+
+pub fn update_todo_item(updated_todo_item: TodoItem) -> Result<TodoItem, Error> {
+    let connection = db_connection::create_connection();
+
+    let transaction_result: Result<TodoItem, Error> = diesel::update(
+        todo_items::table.find(updated_todo_item.id)
+    ).set(
+        (
+            todo_items::columns::title.eq(updated_todo_item.title),
+            todo_items::columns::content.eq(updated_todo_item.content),
+        )
+    ).get_result(&connection);
+
+    transaction_result
+}
