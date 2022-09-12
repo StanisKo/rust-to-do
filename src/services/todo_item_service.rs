@@ -1,7 +1,7 @@
 use crate::db_connection;
 
 use crate::schema::todo_items;
-use crate::models::{TodoItem, NewTodoItem};
+use crate::models::{TodoItem, NewTodoItem, UpdatedTodoItem};
 
 use diesel::prelude::*;
 use diesel::result::Error;
@@ -48,7 +48,7 @@ pub fn check_if_todo_item_exists(title: &String) -> bool {
     }
 }
 
-pub fn update_todo_item(updated_todo_item: TodoItem) -> Result<TodoItem, Error> {
+pub fn update_todo_item(updated_todo_item: UpdatedTodoItem) -> Result<TodoItem, Error> {
     let connection = db_connection::create_connection();
 
     let transaction_result: Result<TodoItem, Error> = diesel::update(

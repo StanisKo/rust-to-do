@@ -3,7 +3,7 @@ use rocket::http::Status;
 use rocket::response::status::Custom;
 
 use crate::dtos::Response;
-use crate::models::{TodoItem, NewTodoItem};
+use crate::models::{TodoItem, NewTodoItem, UpdatedTodoItem};
 use crate::services::todo_item_service;
 
 
@@ -64,4 +64,11 @@ pub fn get_todo_item(item_id: i32) -> Custom<Json<Response<TodoItem>>> {
             )
         }
     }
+}
+
+#[put("/update", format = "json", data="<updated_todo_item>")]
+pub fn update_todo_item(updated_todo_item: Json<UpdatedTodoItem>) -> Custom<Json<Response<TodoItem>>> {
+    let todo_item_to_update = updated_todo_item.into_inner();
+
+    unimplemented!()
 }

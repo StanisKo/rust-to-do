@@ -23,3 +23,11 @@ pub struct NewTodoItem {
     pub title: String,
     pub content: Option<String>
 }
+
+#[derive(Insertable, Deserialize)]
+#[table_name = "todo_items"]
+pub struct UpdatedTodoItem {
+    pub id: i32,
+    pub title: String,
+    pub content: Option<String>
+}
