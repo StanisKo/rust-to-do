@@ -6,9 +6,17 @@ use crate::dtos::Response;
 use crate::models::{TodoItem, NewTodoItem};
 use crate::services::todo_item_service;
 
+
 #[post("/create", format = "json", data="<new_todo_item>")]
 pub fn create_todo_item_controller(new_todo_item: Json<NewTodoItem>) -> Custom<Json<Response<TodoItem>>> {
     let todo_item_to_insert = new_todo_item.into_inner();
+
+    if todo_item_to_insert.title.is_empty() {
+        return Custom(
+            Status::BadRequest,
+            Json(Response::failure("Title is missing from the request"))
+        );
+    }
 
     let todo_item_already_exists = todo_item_service::check_if_todo_item_exists(
         &todo_item_to_insert.title
@@ -32,7 +40,7 @@ pub fn create_todo_item_controller(new_todo_item: Json<NewTodoItem>) -> Custom<J
         Err(_) => {
             Custom(
                 Status::BadRequest,
-                Json(Response::failure("Provided input is invalid"))
+                Json(Response::failure("Creating todo item failed due to internal reasons"))
             )
         }
     }
