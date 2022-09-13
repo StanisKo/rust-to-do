@@ -18,7 +18,7 @@ impl TodoItemService {
     }
 
     pub fn create_todo_item(&self, new_todo_item: NewTodoItem) -> Result<TodoItem, Error> {
-    
+
         let transaction_result: Result<TodoItem, Error> = self.connection.transaction(|| {
             diesel::insert_into(todo_items::table).values(
                 &new_todo_item
