@@ -2,6 +2,7 @@ use crate::db_connection;
 
 use crate::schema::todo_items;
 use crate::models::{TodoItem, NewTodoItem, UpdatedTodoItem};
+use crate::enums::Lookup;
 
 use diesel::prelude::*;
 use diesel::result::Error;
@@ -37,23 +38,17 @@ impl TodoItemService {
         }
     }
 
-    pub fn check_if_todo_item_exists_by_title(&self, title: &String) -> bool {
+    pub fn check_if_todo_item_exists(&self, lookup: Lookup) -> bool {
 
-        match todo_items::table.filter(todo_items::title.eq(title)).count().get_result::<i64>(&self.connection) {
-            Ok(count) => {
+        let mut query = todo_items::table.into_boxed();
 
-                if count >= 1 { return true } else { return false }
-            },
+        query = match lookup {
+            Lookup::Id(id) => query.filter(todo_items::id.eq(id)),
 
-            Err(_) => {
-                false
-            }
-        }
-    }
+            Lookup::Title(title) => query.filter(todo_items::title.eq(title))
+        };
 
-    pub fn check_if_todo_item_exists_by_id(&self, id: i32) -> bool {
-
-        match todo_items::table.filter(todo_items::id.eq(id)).count().get_result::<i64>(&self.connection) {
+        match query.count().get_result::<i64>(&self.connection) {
             Ok(count) => {
 
                 if count >= 1 { return true } else { return false }

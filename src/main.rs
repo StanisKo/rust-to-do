@@ -8,6 +8,7 @@ mod dtos;
 mod services;
 mod controllers;
 mod catchers;
+mod enums;
 
 mod db_connection;
 
