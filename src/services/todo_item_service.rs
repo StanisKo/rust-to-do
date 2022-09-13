@@ -24,7 +24,7 @@ impl TodoItemService {
                 &new_todo_item
             ).get_result(&self.connection)
         });
-    
+
         transaction_result
     }
 
@@ -32,7 +32,7 @@ impl TodoItemService {
 
         match todo_items::table.find(item_id).get_result::<TodoItem>(&self.connection) {
             Ok(todo_item) => Some(todo_item),
-    
+
             Err(_) => None
         }
     }
@@ -48,7 +48,7 @@ impl TodoItemService {
                     _ => true
                 }
             },
-    
+
             Err(_) => {
                 false
             }
@@ -65,7 +65,7 @@ impl TodoItemService {
                 todo_items::columns::content.eq(updated_todo_item.content),
             )
         ).get_result(&self.connection);
-    
+
         transaction_result
     }
 }
