@@ -13,9 +13,8 @@ pub struct TodoItemService {
 impl TodoItemService {
 
     pub fn new() -> Self {
-        let connection = db_connection::create_connection();
 
-        Self { connection }
+        Self { connection: db_connection::create_connection() }
     }
 
     pub fn create_todo_item(&self, new_todo_item: NewTodoItem) -> Result<TodoItem, Error> {
