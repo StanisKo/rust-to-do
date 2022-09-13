@@ -4,11 +4,14 @@ use rocket::response::status::Custom;
 
 use crate::dtos::Response;
 use crate::models::{TodoItem, NewTodoItem, UpdatedTodoItem};
-use crate::services::todo_item_service;
+use crate::services::TodoItemService;
 
 
 #[post("/create", format = "json", data="<new_todo_item>")]
 pub fn create_todo_item(new_todo_item: Json<NewTodoItem>) -> Custom<Json<Response<TodoItem>>> {
+
+    let todo_item_service = TodoItemService::new();
+
     let todo_item_to_insert = new_todo_item.into_inner();
 
     if todo_item_to_insert.title.is_empty() {
@@ -18,7 +21,7 @@ pub fn create_todo_item(new_todo_item: Json<NewTodoItem>) -> Custom<Json<Respons
         );
     }
 
-    let todo_item_already_exists = todo_item_service::check_if_todo_item_exists(
+    let todo_item_already_exists = todo_item_service.check_if_todo_item_exists(
         &todo_item_to_insert.title
     );
 
@@ -29,7 +32,7 @@ pub fn create_todo_item(new_todo_item: Json<NewTodoItem>) -> Custom<Json<Respons
         );
     }
 
-    match todo_item_service::create_todo_item(todo_item_to_insert) {
+    match todo_item_service.create_todo_item(todo_item_to_insert) {
         Ok(todo_item) => {
             Custom(
                 Status::Created,
@@ -49,7 +52,9 @@ pub fn create_todo_item(new_todo_item: Json<NewTodoItem>) -> Custom<Json<Respons
 #[get("/<item_id>")]
 pub fn get_todo_item(item_id: i32) -> Custom<Json<Response<TodoItem>>> {
 
-    match todo_item_service::get_todo_item(item_id) {
+    let todo_item_service = TodoItemService::new();
+
+    match todo_item_service.get_todo_item(item_id) {
         Some(todo_item) => {
             Custom(
                 Status::Ok,
@@ -64,11 +69,4 @@ pub fn get_todo_item(item_id: i32) -> Custom<Json<Response<TodoItem>>> {
             )
         }
     }
-}
-
-#[put("/update", format = "json", data="<updated_todo_item>")]
-pub fn update_todo_item(updated_todo_item: Json<UpdatedTodoItem>) -> Custom<Json<Response<TodoItem>>> {
-    let todo_item_to_update = updated_todo_item.into_inner();
-
-    unimplemented!()
 }
