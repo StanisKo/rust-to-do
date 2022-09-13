@@ -1,8 +1,7 @@
-use crate::db_connection;
-
 use diesel::prelude::*;
 use diesel::result::Error;
 
+use crate::db_connection;
 use crate::enums::Lookup;
 use crate::schema::todo_items;
 use crate::models::{TodoItem, NewTodoItem, UpdatedTodoItem};
