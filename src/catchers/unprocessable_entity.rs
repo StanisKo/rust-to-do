@@ -2,16 +2,15 @@ use rocket::serde::json::Json;
 use rocket::response::status::Custom;
 use rocket::http::Status;
 
-use crate::dtos::Response;
+use crate::dtos::ErrorResponse;
 
-/*
-This typing is irrelevant, yet, creating another DTO just for the sake
-of catching miss-typed input feels like an overkill
-*/
 #[catch(422)]
-pub fn unprocessable_entity_catcher() -> Custom<Json<Response<String>>> {
+pub fn unprocessable_entity_catcher() -> Custom<Json<ErrorResponse>> {
+
     Custom(
         Status::BadRequest,
-        Json(Response::failure("One or more of the provided fields is of wrong type"))
+        Json(
+            ErrorResponse::new("One or more of the provided fields is of wrong type")
+        )
     )
 }

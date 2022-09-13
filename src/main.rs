@@ -5,10 +5,10 @@ mod schema;
 mod models;
 mod dtos;
 
+mod enums;
+mod catchers;
 mod services;
 mod controllers;
-mod catchers;
-mod enums;
 
 mod db_connection;
 

@@ -10,10 +10,26 @@ pub struct Response<T> {
 impl<T> Response<T> {
 
     pub fn success(body: T) -> Self {
-        Response { sucess: true, message: None, data: Some(body) }
+
+        Self { sucess: true, message: None, data: Some(body) }
     }
 
     pub fn failure(message: impl Into<String>) -> Self {
-        Response { sucess: false, message: Some(message.into()), data: None }
+
+        Self { sucess: false, message: Some(message.into()), data: None }
+    }
+}
+
+#[derive(Serialize)]
+pub struct ErrorResponse {
+    pub sucess: bool,
+    pub message: String
+}
+
+impl ErrorResponse {
+
+    pub fn new(error_message: impl Into<String>) -> Self {
+
+        Self { sucess: false, message: error_message.into() }
     }
 }

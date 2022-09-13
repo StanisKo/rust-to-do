@@ -1,11 +1,11 @@
 use crate::db_connection;
 
-use crate::schema::todo_items;
-use crate::models::{TodoItem, NewTodoItem, UpdatedTodoItem};
-use crate::enums::Lookup;
-
 use diesel::prelude::*;
 use diesel::result::Error;
+
+use crate::enums::Lookup;
+use crate::schema::todo_items;
+use crate::models::{TodoItem, NewTodoItem, UpdatedTodoItem};
 
 pub struct TodoItemService {
     connection: PgConnection
