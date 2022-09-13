@@ -1,6 +1,6 @@
+use rocket::http::Status;
 use rocket::serde::json::Json;
 use rocket::response::status::Custom;
-use rocket::http::Status;
 
 use crate::dtos::ErrorResponse;
 

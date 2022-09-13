@@ -17,6 +17,20 @@ pub struct TodoItem {
     pub created: Option<NaiveDateTime>
 }
 
+impl TodoItem {
+
+    pub fn merge(self, other: UpdatedTodoItem) -> Self {
+
+        Self {
+            id: self.id,
+            title: other.title.unwrap_or(self.title),
+            content: other.content.or(self.content),
+            done: other.done.or(self.done),
+            created: self.created
+        }
+    }
+}
+
 #[derive(Insertable, Deserialize)]
 #[table_name = "todo_items"]
 pub struct NewTodoItem {
@@ -27,7 +41,7 @@ pub struct NewTodoItem {
 #[derive(Insertable, Deserialize)]
 #[table_name = "todo_items"]
 pub struct UpdatedTodoItem {
-    pub id: i32,
-    pub title: String,
-    pub content: Option<String>
+    pub title: Option<String>,
+    pub content: Option<String>,
+    pub done: Option<bool>
 }

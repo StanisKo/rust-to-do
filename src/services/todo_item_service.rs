@@ -4,7 +4,7 @@ use diesel::result::Error;
 use crate::db_connection;
 use crate::enums::Lookup;
 use crate::schema::todo_items;
-use crate::models::{TodoItem, NewTodoItem, UpdatedTodoItem};
+use crate::models::{TodoItem, NewTodoItem};
 
 pub struct TodoItemService {
     connection: PgConnection
@@ -59,14 +59,15 @@ impl TodoItemService {
         }
     }
 
-    pub fn update_todo_item(&self, updated_todo_item: UpdatedTodoItem) -> Result<TodoItem, Error> {
+    pub fn update_todo_item(&self, updated_todo_item: &TodoItem) -> Result<TodoItem, Error> {
 
         let transaction_result: Result<TodoItem, Error> = diesel::update(
             todo_items::table.find(updated_todo_item.id)
         ).set(
             (
-                todo_items::columns::title.eq(updated_todo_item.title),
-                todo_items::columns::content.eq(updated_todo_item.content),
+                todo_items::columns::title.eq(&updated_todo_item.title),
+                todo_items::columns::content.eq(&updated_todo_item.content),
+                todo_items::columns::done.eq(&updated_todo_item.done),
             )
         ).get_result(&self.connection);
 

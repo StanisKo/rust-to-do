@@ -20,7 +20,8 @@ fn rocket() -> _ {
     rocket::build().register("/", catchers![
         unprocessable_entity_catcher
     ]).mount("/todo-item", routes![
+        todo_item_controller::get_todo_item,
         todo_item_controller::create_todo_item,
-        todo_item_controller::get_todo_item
+        todo_item_controller::update_todo_item
     ])
 }
