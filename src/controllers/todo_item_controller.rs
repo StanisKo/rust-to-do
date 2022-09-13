@@ -3,9 +3,8 @@ use rocket::http::Status;
 use rocket::response::status::Custom;
 
 use crate::dtos::Response;
-use crate::models::{TodoItem, NewTodoItem, UpdatedTodoItem};
+use crate::models::{TodoItem, NewTodoItem};
 use crate::services::TodoItemService;
-
 
 #[post("/create", format = "json", data="<new_todo_item>")]
 pub fn create_todo_item(new_todo_item: Json<NewTodoItem>) -> Custom<Json<Response<TodoItem>>> {
@@ -21,7 +20,7 @@ pub fn create_todo_item(new_todo_item: Json<NewTodoItem>) -> Custom<Json<Respons
         );
     }
 
-    let todo_item_already_exists = todo_item_service.check_if_todo_item_exists(
+    let todo_item_already_exists = todo_item_service.check_if_todo_item_exists_by_title(
         &todo_item_to_insert.title
     );
 

@@ -37,16 +37,26 @@ impl TodoItemService {
         }
     }
 
-    pub fn check_if_todo_item_exists(&self, title: &String) -> bool {
+    pub fn check_if_todo_item_exists_by_title(&self, title: &String) -> bool {
 
-        match todo_items::table.filter(todo_items::title.eq(title)).count().get_result(&self.connection) {
+        match todo_items::table.filter(todo_items::title.eq(title)).count().get_result::<i64>(&self.connection) {
             Ok(count) => {
-    
-                match count {
-                    1 => true,
-                    0 => false,
-                    _ => true
-                }
+
+                if count >= 1 { return true } else { return false }
+            },
+
+            Err(_) => {
+                false
+            }
+        }
+    }
+
+    pub fn check_if_todo_item_exists_by_id(&self, id: i32) -> bool {
+
+        match todo_items::table.filter(todo_items::id.eq(id)).count().get_result::<i64>(&self.connection) {
+            Ok(count) => {
+
+                if count >= 1 { return true } else { return false }
             },
 
             Err(_) => {
