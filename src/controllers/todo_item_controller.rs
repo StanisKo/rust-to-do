@@ -2,10 +2,10 @@ use rocket::http::Status;
 use rocket::serde::json::Json;
 use rocket::response::status::Custom;
 
-use crate::models::{TodoItem, NewTodoItem};
-use crate::services::TodoItemService;
-use crate::dtos::Response;
 use crate::enums::Lookup;
+use crate::dtos::Response;
+use crate::services::TodoItemService;
+use crate::models::{TodoItem, NewTodoItem};
 
 #[post("/create", format = "json", data="<new_todo_item>")]
 pub fn create_todo_item(new_todo_item: Json<NewTodoItem>) -> Custom<Json<Response<TodoItem>>> {
