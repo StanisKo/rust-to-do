@@ -73,4 +73,13 @@ impl TodoItemService {
 
         transaction_result
     }
+
+    pub fn delete_todo_item(&self, item_id: i32) -> Result<TodoItem, Error> {
+
+        let transaction_result = diesel::delete(
+            todo_items::table.find(item_id)
+        ).get_result(&self.connection);
+
+        transaction_result
+    }
 }

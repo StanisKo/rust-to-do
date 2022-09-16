@@ -22,6 +22,7 @@ fn rocket() -> _ {
     ]).mount("/todo-item", routes![
         todo_item_controller::get_todo_item,
         todo_item_controller::create_todo_item,
-        todo_item_controller::update_todo_item
+        todo_item_controller::update_todo_item,
+        todo_item_controller::delete_todo_item
     ])
 }
