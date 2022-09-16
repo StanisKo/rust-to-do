@@ -2,19 +2,21 @@ use diesel::prelude::*;
 use diesel::result::Error;
 
 use crate::db_connection;
-use crate::enums::Lookup;
+use crate::enums::{Lookup, Filter};
 use crate::schema::todo_items;
 use crate::models::{TodoItem, NewTodoItem};
 
 pub struct TodoItemService {
-    connection: PgConnection
+    connection: PgConnection,
+
+    paginate_by: i8
 }
 
 impl TodoItemService {
 
     pub fn new() -> Self {
 
-        Self { connection: db_connection::create_connection() }
+        Self { connection: db_connection::create_connection(), paginate_by: 10 }
     }
 
     pub fn create_todo_item(&self, new_todo_item: NewTodoItem) -> Result<TodoItem, Error> {
@@ -81,5 +83,25 @@ impl TodoItemService {
         ).get_result(&self.connection);
 
         transaction_result
+    }
+
+    pub fn get_todo_items_list(&self, page: i32, filter: Filter) -> Result<Vec<TodoItem>, Error> {
+
+        let mut query = todo_items::table.into_boxed();
+
+        query = match filter {
+            Filter::Done => query.filter(todo_items::done.eq(true)),
+
+            Filter::Active => query.filter(todo_items::done.eq(false))
+        };
+
+        let number_of_pages = match query.count().get_result::<i64>(&self.connection) {
+
+            Ok(number_of_results) => (number_of_results as f64 / self.paginate_by as f64).ceil() as i32,
+
+            Err(_) => 0
+        };
+
+        unimplemented!()
     }
 }
