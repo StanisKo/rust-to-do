@@ -95,9 +95,9 @@ impl TodoItemService {
             Filter::Active => query.filter(todo_items::done.eq(false))
         };
 
-        let number_of_pages = match &query.count().get_result::<i64>(&self.connection) {
+        let number_of_pages = match query.count().get_result::<i64>(&self.connection) {
 
-            Ok(number_of_results) => (*number_of_results as f64 / self.paginate_by as f64).ceil() as i64,
+            Ok(number_of_results) => (number_of_results as f64 / self.paginate_by as f64).ceil() as i64,
 
             Err(_) => 0
         };
