@@ -85,7 +85,7 @@ impl TodoItemService {
         transaction_result
     }
 
-    pub fn get_todo_items_list(&self, page: i32, filter: Filter) -> (Result<Vec<TodoItem>, Error>, i64) {
+    pub fn get_todo_items_list(&self, page: i32, filter: Filter) -> Result<Vec<TodoItem>, Error> {
 
         let mut query = todo_items::table.into_boxed();
 
@@ -95,17 +95,10 @@ impl TodoItemService {
             Filter::Active => query.filter(todo_items::done.eq(false))
         };
 
-        let number_of_pages = match query.count().get_result::<i64>(&self.connection) {
-
-            Ok(number_of_results) => (number_of_results as f64 / self.paginate_by as f64).ceil() as i64,
-
-            Err(_) => 0
-        };
-
-        let results = query.offset(page as i64 * self.paginate_by).limit(self.paginate_by).load::<TodoItem>(
+        let results = query.offset((page - 1) as i64 * self.paginate_by).limit(self.paginate_by).load::<TodoItem>(
             &self.connection
         );
 
-        (results, number_of_pages)
+        results
     }
 }

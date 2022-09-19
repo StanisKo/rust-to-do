@@ -2,8 +2,8 @@ use rocket::http::Status;
 use rocket::serde::json::Json;
 use rocket::response::status::Custom;
 
-use crate::enums::Lookup;
 use crate::dtos::Response;
+use crate::enums::{Lookup, Filter};
 use crate::services::TodoItemService;
 use crate::models::{TodoItem, NewTodoItem, UpdatedTodoItem};
 
@@ -145,4 +145,39 @@ pub fn delete_todo_item(item_id: i32) -> Custom<Json<Response<TodoItem>>> {
         Status::NotFound,
         Json(Response::failure("Todo item by such id does not exist"))
     )
+}
+
+#[get("/list/<filter>/<page>")]
+pub fn get_todo_item_list(filter: &str, page: i32) -> Custom<Json<Response<Vec<TodoItem>>>> {
+
+    let todo_item_service = TodoItemService::new();
+
+    let filter = match filter {
+        "done" => Filter::Done,
+
+        "active" => Filter::Active,
+
+        _ => {
+            return Custom(
+                Status::BadRequest,
+                Json(Response::failure("Provided filter is not supported"))
+            );
+        }
+    };
+
+    match todo_item_service.get_todo_items_list(page, filter) {
+        Ok(todo_items_list) => {
+            Custom(
+                Status::Ok,
+                Json(Response::success(todo_items_list))
+            )
+        },
+
+        Err(_) => {
+            Custom(
+                Status::InternalServerError,
+                Json(Response::failure("Fetching todo item list failed due to internal reasons"))
+            )
+        }
+    }
 }
