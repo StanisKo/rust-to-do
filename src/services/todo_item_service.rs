@@ -85,7 +85,7 @@ impl TodoItemService {
         transaction_result
     }
 
-    pub fn get_todo_items_list(&self, page: i32, filter: Filter) -> Result<Vec<TodoItem>, Error> {
+    pub fn get_todo_items_list(&self, page: i32, filter: Filter) -> (Result<Vec<TodoItem>, Error>, i64) {
 
         let mut query = todo_items::table.into_boxed();
 
@@ -106,6 +106,6 @@ impl TodoItemService {
             &self.connection
         );
 
-        unimplemented!()
+        (results, number_of_pages)
     }
 }
