@@ -1,0 +1,27 @@
+version: "3.4"
+
+services:
+    database:
+        image: "postgres:12"
+        ports:
+          - "${SQL_PORT}:${SQL_PORT}"
+        environment:
+          - POSTGRES_USER=${SQL_USER}
+          - POSTGRES_PASSWORD=${SQL_PASSWORD}
+          - POSTGRES_DATABASE=${SQL_DATABASE}
+        volumes:
+          - './docker/psql/data:/var/lib/postgresql/data:rw'
+
+    api:
+      build:
+        dockerfile: Dockerfile
+        context: "."
+      env_file:
+        - .env
+      ports:
+        - "${API_PORT}:${API_PORT}"
+      volumes:
+        - ./:/to-do
+      depends_on:
+        - database
+      command:  bash -c "/wait && diesel setup && diesel migration run && cargo watch --why --ignore data --ignore cargo --ignore images --ignore target -- cargo run --release --color always"
