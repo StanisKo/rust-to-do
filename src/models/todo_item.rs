@@ -23,8 +23,8 @@ impl TodoItem {
 
         Self {
             id: self.id,
-            title: other.title.unwrap_or(self.title),
-            content: other.content.or(self.content),
+            title: other.title.unwrap_or(&self.title).to_string(),
+            content: other.content.map(|content| { content.to_string() }).or(self.content),
             done: other.done.or(self.done),
             created: self.created
         }
@@ -40,8 +40,8 @@ pub struct NewTodoItem<'a> {
 
 #[derive(Insertable, Deserialize)]
 #[table_name = "todo_items"]
-pub struct UpdatedTodoItem {
-    pub title: Option<String>,
-    pub content: Option<String>,
+pub struct UpdatedTodoItem<'a> {
+    pub title: Option<&'a str>,
+    pub content: Option<&'a str>,
     pub done: Option<bool>
 }
