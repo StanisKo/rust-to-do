@@ -5,7 +5,7 @@ diesel::table! {
         id -> Int4,
         title -> Varchar,
         content -> Nullable<Text>,
-        created -> Timestamp,
-        done -> Bool,
+        done -> Nullable<Bool>,
+        created -> Nullable<Timestamp>,
     }
 }
