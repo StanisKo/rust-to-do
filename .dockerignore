@@ -1,0 +1,11 @@
+cargo
+target
+docker
+
+Dockerfile
+
+.dockerignore
+.git
+.gitignore
+
+.vscode
