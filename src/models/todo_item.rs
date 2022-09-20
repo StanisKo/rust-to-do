@@ -33,9 +33,9 @@ impl TodoItem {
 
 #[derive(Insertable, Deserialize)]
 #[table_name = "todo_items"]
-pub struct NewTodoItem {
-    pub title: String,
-    pub content: Option<String>
+pub struct NewTodoItem<'a> {
+    pub title: &'a str,
+    pub content: Option<&'a str>
 }
 
 #[derive(Insertable, Deserialize)]
